@@ -17,11 +17,11 @@
         android:layout_marginRight="8dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="title"
         android:textSize="34sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:hint="title"/>
 
     <Button
         android:id="@+id/item_submit"
@@ -50,8 +50,8 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:textSize="34sp"
-        android:text="description"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/item_title" />
+        app:layout_constraintTop_toBottomOf="@+id/item_title"
+        android:hint="description"/>
 </android.support.constraint.ConstraintLayout>

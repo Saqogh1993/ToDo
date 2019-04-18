@@ -1,9 +1,11 @@
 package com.sargisghazaryan.todo.activity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -23,6 +25,9 @@ import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements OnItemSelected {
+
+    public static final int REQUEST_CODE_ADD = 1;
+    public static final int REQUEST_CODE_EDIT = 2;
 
     FloatingActionButton buttonAdd;
     RecyclerView recyclerView;
@@ -49,27 +54,44 @@ public class MainActivity extends AppCompatActivity implements OnItemSelected {
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivityForResult(intent, 1);
+                intent.putExtra("requestCode", String.valueOf(REQUEST_CODE_ADD));
+                startActivityForResult(intent, REQUEST_CODE_ADD);
             }
         });
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        ItemModel itemModel = new ItemModel();
-        if (data == null) throw new AssertionError();
-        itemModel.setTitle(data.getStringExtra("title"));
-        itemModel.setDescription(data.getStringExtra("description"));
-        itemList.add(itemModel);
+
+        if (requestCode == 1) {
+            ItemModel itemModel = new ItemModel();
+            if (data == null) throw new AssertionError();
+            itemModel.setTitle(data.getStringExtra("title"));
+            itemModel.setDescription(data.getStringExtra("description"));
+            itemAdapter.addItem(itemModel);
+        }else if (requestCode == 2) {
+            ItemModel itemModel = new ItemModel();
+            itemModel.setTitle(data.getStringExtra("title"));
+            itemModel.setDescription(data.getStringExtra("description"));
+            itemAdapter.updateItem(itemModel);
+        }
 
     }
 
     @Override
     public void onItemClick(int position) {
-        // define code to go to ItemActivity
+
         Intent intent = new Intent(this, ItemActivity.class);
-        startActivity(intent);
+
+        ItemModel itemModel = itemList.get(position);
+        intent.putExtra("title", itemModel.getTitle());
+        intent.putExtra("description", itemModel.getDescription());
+        intent.putExtra("requestCode", String.valueOf(REQUEST_CODE_EDIT));
+        intent.putExtra("item", itemModel);
+
+        startActivityForResult(intent, REQUEST_CODE_EDIT);
     }
 }

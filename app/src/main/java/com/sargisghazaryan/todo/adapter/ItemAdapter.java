@@ -2,7 +2,9 @@ package com.sargisghazaryan.todo.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +19,7 @@ import com.sargisghazaryan.todo.activity.MainActivity;
 import com.sargisghazaryan.todo.model.ItemModel;
 
 import java.util.List;
+import java.util.Objects;
 
 import static android.widget.AdapterView.*;
 
@@ -28,6 +31,21 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     public ItemAdapter(List<ItemModel> itemList, OnItemSelected onItemSelected) {
         this.itemList = itemList;
         this.onItemSelected = onItemSelected;
+    }
+
+    public void addItem(ItemModel item) {
+        itemList.add(item);
+        notifyItemInserted(itemList.size() - 1);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    public void updateItem(ItemModel item) {
+        for (int i = 0; i < itemList.size(); i++) {
+            if (Objects.equals(item, itemList.get(i))) {
+                itemList.set(i, item);
+                notifyItemChanged(i);
+            }
+        }
     }
 
     @NonNull
