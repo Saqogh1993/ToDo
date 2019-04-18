@@ -19,6 +19,7 @@ import java.util.Date;
 public class ItemActivity extends AppCompatActivity {
 
     EditText title, description;
+    TextView date;
     Button button;
 
     @Override
@@ -28,12 +29,11 @@ public class ItemActivity extends AppCompatActivity {
 
         title = (EditText) findViewById(R.id.item_title);
         description = (EditText) findViewById(R.id.item_description);
+        date = (TextView) findViewById(R.id.item_date);
+        date.setText(new Date().toString());
         button = (Button) findViewById(R.id.item_submit);
 
-
         final Intent intent = new Intent(this, MainActivity.class);
-
-
 
         String requestCode = getIntent().getStringExtra("requestCode");
 
@@ -43,6 +43,8 @@ public class ItemActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     String titleText = title.getText().toString();
                     String descriptionText = description.getText().toString();
+                    String dateText = date.getText().toString();
+                    intent.putExtra("date", dateText);
                     intent.putExtra("title", titleText);
                     intent.putExtra("description", descriptionText);
                     setResult(1, intent);
@@ -58,6 +60,8 @@ public class ItemActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     String titleText = title.getText().toString();
                     String descriptionText = description.getText().toString();
+                    String dateText = new Date().toString();
+                    intent.putExtra("date", dateText);
                     intent.putExtra("title", titleText);
                     intent.putExtra("description", descriptionText);
                     setResult(2, intent);
@@ -70,6 +74,7 @@ public class ItemActivity extends AppCompatActivity {
     private void fillData(ItemModel itemModel) {
         title.setText(itemModel.getTitle());
         description.setText(itemModel.getDescription());
+        date.setText(itemModel.getDate());
     }
 
 }

@@ -10,20 +10,23 @@ public class ItemModel implements Parcelable {
     private String id;
     private String title;
     private String description;
+    private String date;
 
     public ItemModel() {
     }
 
-    public ItemModel(String id, String title, String description, Date date) {
+    public ItemModel(String id, String title, String description, String date) {
         this.id = id;
         this.title = title;
         this.description = description;
+        this.date = date;
     }
 
     protected ItemModel(Parcel in) {
         id = in.readString();
         title = in.readString();
         description = in.readString();
+        date = in.readString();
     }
 
     public static final Creator<ItemModel> CREATOR = new Creator<ItemModel>() {
@@ -62,12 +65,21 @@ public class ItemModel implements Parcelable {
         this.description = description;
     }
 
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
     @Override
     public String toString() {
         return "ItemModel{" +
                 "id='" + id + '\'' +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
+                ", date=" + date +
                 '}';
     }
 
@@ -109,5 +121,6 @@ public class ItemModel implements Parcelable {
         dest.writeString(id);
         dest.writeString(title);
         dest.writeString(description);
+        dest.writeString(date);
     }
 }

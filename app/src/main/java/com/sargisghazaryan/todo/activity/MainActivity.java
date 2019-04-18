@@ -13,6 +13,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.sargisghazaryan.todo.R;
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements OnItemSelected {
     RecyclerView recyclerView;
     ItemAdapter itemAdapter;
     List<ItemModel> itemList;
+    ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements OnItemSelected {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,18 +69,16 @@ public class MainActivity extends AppCompatActivity implements OnItemSelected {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == 1) {
-            ItemModel itemModel = new ItemModel();
-            if (data == null) throw new AssertionError();
-            itemModel.setTitle(data.getStringExtra("title"));
-            itemModel.setDescription(data.getStringExtra("description"));
+        ItemModel itemModel = new ItemModel();
+        itemModel.setTitle(data.getStringExtra("title"));
+        itemModel.setDescription(data.getStringExtra("description"));
+        itemModel.setDate(data.getStringExtra("date"));
+
+        if (requestCode == 1)
             itemAdapter.addItem(itemModel);
-        }else if (requestCode == 2) {
-            ItemModel itemModel = new ItemModel();
-            itemModel.setTitle(data.getStringExtra("title"));
-            itemModel.setDescription(data.getStringExtra("description"));
+        else if (requestCode == 2)
             itemAdapter.updateItem(itemModel);
-        }
+
 
     }
 
@@ -94,4 +95,5 @@ public class MainActivity extends AppCompatActivity implements OnItemSelected {
 
         startActivityForResult(intent, REQUEST_CODE_EDIT);
     }
+
 }

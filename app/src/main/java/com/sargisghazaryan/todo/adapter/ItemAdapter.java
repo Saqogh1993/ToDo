@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sargisghazaryan.todo.R;
@@ -59,8 +60,10 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     public void onBindViewHolder(@NonNull ItemViewHolder itemViewHolder, final int position) {
         TextView title = itemViewHolder.title;
         TextView description = itemViewHolder.description;
+        TextView date = itemViewHolder.date;
         title.setText(itemList.get(position).getTitle());
         description.setText(itemList.get(position).getDescription());
+        date.setText(itemList.get(position).getDate());
     }
 
     @Override
@@ -73,12 +76,14 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
 
         TextView title;
         TextView description;
+        TextView date;
         OnItemSelected onItemSelected;
 
         ItemViewHolder(@NonNull View itemView, OnItemSelected onItemSelected) {
             super(itemView);
-            title = (TextView) itemView.findViewById(R.id.each_item_title);
-            description = (TextView) itemView.findViewById(R.id.each_item_description);
+            title = itemView.findViewById(R.id.each_item_title);
+            description = itemView.findViewById(R.id.each_item_description);
+            date = itemView.findViewById(R.id.each_item_date);
             this.onItemSelected = onItemSelected;
 
             itemView.setOnClickListener(this);
@@ -91,6 +96,6 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     }
 
     public interface OnItemSelected {
-        public void onItemClick(int position);
+        void onItemClick(int position);
     }
 }
