@@ -8,6 +8,7 @@ import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sargisghazaryan.todo.R;
@@ -24,7 +25,10 @@ public class ItemActivity extends AppCompatActivity {
 
     EditText title, description;
     TextView date;
+    TextView priority;
     Button button;
+    ImageView increase;
+    ImageView decrease;
 
     ItemModel itemModel;
 
@@ -47,6 +51,23 @@ public class ItemActivity extends AppCompatActivity {
         date = (TextView) findViewById(R.id.item_date);
         date.setText(DateUtil.formatDateToLongStyle(new Date()));
         button = (Button) findViewById(R.id.item_submit);
+        priority = (TextView) findViewById(R.id.item_priority_value);
+        increase = (ImageView) findViewById(R.id.item_priority_increase);
+        decrease = (ImageView) findViewById(R.id.item_priority_decrease);
+
+        increase.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                priority.setText(String.valueOf(Integer.parseInt(priority.getText().toString()) + 1));
+            }
+        });
+
+        decrease.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                priority.setText(String.valueOf(Integer.parseInt(priority.getText().toString()) - 1));
+            }
+        });
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,6 +82,7 @@ public class ItemActivity extends AppCompatActivity {
         title.setText(itemModel.getTitle());
         description.setText(itemModel.getDescription());
         date.setText(itemModel.getDate());
+        priority.setText(String.valueOf(itemModel.getPriority()));
     }
 
     private ItemModel createTodoItemFromInput() {
@@ -72,6 +94,7 @@ public class ItemActivity extends AppCompatActivity {
         itemModel.setTitle(title.getText().toString());
         itemModel.setDescription(description.getText().toString());
         itemModel.setDate(date.getText().toString());
+        itemModel.setPriority(Integer.parseInt(priority.getText().toString()));
 
         return itemModel;
     }

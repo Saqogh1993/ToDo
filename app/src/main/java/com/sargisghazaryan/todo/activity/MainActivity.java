@@ -57,7 +57,6 @@ public class MainActivity extends AppCompatActivity implements OnItemSelected {
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent.putExtra("requestCode", String.valueOf(REQUEST_CODE_ADD));
                 startActivityForResult(intent, REQUEST_CODE_ADD);
             }
         });
@@ -70,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements OnItemSelected {
         switch (requestCode) {
             case REQUEST_CODE_ADD: {
                 if (resultCode == RESULT_OK) {
+                    assert data != null;
                     ItemModel itemModel = data.getParcelableExtra(ItemActivity.ARG_TODO_ITEM);
                     itemAdapter.addItem(itemModel);
                 }
@@ -77,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements OnItemSelected {
             break;
             case REQUEST_CODE_EDIT: {
                 if (resultCode == RESULT_OK) {
+                    assert data != null;
                     ItemModel itemModel = data.getParcelableExtra(ItemActivity.ARG_TODO_ITEM);
                     itemAdapter.updateItem(itemModel);
                 }

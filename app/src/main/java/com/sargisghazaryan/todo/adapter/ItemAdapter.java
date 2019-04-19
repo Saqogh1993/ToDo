@@ -1,7 +1,5 @@
 package com.sargisghazaryan.todo.adapter;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
@@ -9,19 +7,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sargisghazaryan.todo.R;
-import com.sargisghazaryan.todo.activity.ItemActivity;
-import com.sargisghazaryan.todo.activity.MainActivity;
 import com.sargisghazaryan.todo.model.ItemModel;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 
 import static android.widget.AdapterView.*;
 

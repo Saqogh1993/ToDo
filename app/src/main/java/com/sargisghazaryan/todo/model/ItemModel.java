@@ -10,19 +10,25 @@ import java.util.Date;
 import java.util.Objects;
 
 public class ItemModel implements Parcelable {
+
+    public static final int PRIORITY_MAX = 5;
+    public static final int PRIORITY_MIN = 0;
+
     private String id;
     private String title;
     private String description;
     private String date;
+    private int priority;
 
     public ItemModel() {
     }
 
-    public ItemModel(String id, String title, String description, String date) {
+    public ItemModel(String id, String title, String description, String date, int priority) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.date = date;
+        this.priority = priority;
     }
 
     protected ItemModel(Parcel in) {
@@ -30,6 +36,7 @@ public class ItemModel implements Parcelable {
         title = in.readString();
         description = in.readString();
         date = in.readString();
+        priority = in.readInt();
     }
 
     public static final Creator<ItemModel> CREATOR = new Creator<ItemModel>() {
@@ -43,6 +50,18 @@ public class ItemModel implements Parcelable {
             return new ItemModel[size];
         }
     };
+
+    public int getPriority() {
+        return priority;
+    }
+
+    public void setPriority(int priority) {
+        if (priority < PRIORITY_MIN || priority > PRIORITY_MAX) {
+            throw new IllegalArgumentException("Priority should be in range of " + PRIORITY_MIN
+                    + " - " + PRIORITY_MAX);
+        }
+        this.priority = priority;
+    }
 
     public String getId() {
         return id;
@@ -126,5 +145,6 @@ public class ItemModel implements Parcelable {
         dest.writeString(title);
         dest.writeString(description);
         dest.writeString(date);
+        dest.writeInt(priority);
     }
 }
