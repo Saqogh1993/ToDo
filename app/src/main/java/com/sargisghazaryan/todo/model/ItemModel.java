@@ -1,10 +1,13 @@
 package com.sargisghazaryan.todo.model;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.RequiresApi;
 
 import java.util.Date;
+import java.util.Objects;
 
 public class ItemModel implements Parcelable {
     private String id;
@@ -110,6 +113,7 @@ public class ItemModel implements Parcelable {
             return id.equals(other.id);
         }
     }
+
 
     @Override
     public int describeContents() {

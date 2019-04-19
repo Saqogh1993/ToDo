@@ -24,6 +24,7 @@ import com.sargisghazaryan.todo.model.ItemModel;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity implements OnItemSelected {
 
@@ -34,7 +35,6 @@ public class MainActivity extends AppCompatActivity implements OnItemSelected {
     RecyclerView recyclerView;
     ItemAdapter itemAdapter;
     List<ItemModel> itemList;
-    ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,20 +67,25 @@ public class MainActivity extends AppCompatActivity implements OnItemSelected {
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        switch (requestCode) {
+            case REQUEST_CODE_ADD: {
+                if (resultCode == RESULT_OK) {
+                    ItemModel itemModel = data.getParcelableExtra(ItemActivity.ARG_TODO_ITEM);
+                    itemAdapter.addItem(itemModel);
+                }
+            }
+            break;
+            case REQUEST_CODE_EDIT: {
+                if (resultCode == RESULT_OK) {
+                    ItemModel itemModel = data.getParcelableExtra(ItemActivity.ARG_TODO_ITEM);
+                    itemAdapter.updateItem(itemModel);
+                }
+            }
+            break;
+        }
         super.onActivityResult(requestCode, resultCode, data);
-
-        ItemModel itemModel = new ItemModel();
-        itemModel.setTitle(data.getStringExtra("title"));
-        itemModel.setDescription(data.getStringExtra("description"));
-        itemModel.setDate(data.getStringExtra("date"));
-
-        if (requestCode == 1)
-            itemAdapter.addItem(itemModel);
-        else if (requestCode == 2)
-            itemAdapter.updateItem(itemModel);
-
-
     }
+
 
     @Override
     public void onItemClick(int position) {
@@ -88,10 +93,7 @@ public class MainActivity extends AppCompatActivity implements OnItemSelected {
         Intent intent = new Intent(this, ItemActivity.class);
 
         ItemModel itemModel = itemList.get(position);
-        intent.putExtra("title", itemModel.getTitle());
-        intent.putExtra("description", itemModel.getDescription());
-        intent.putExtra("requestCode", String.valueOf(REQUEST_CODE_EDIT));
-        intent.putExtra("item", itemModel);
+        intent.putExtra(ItemActivity.ARG_TODO_ITEM, itemModel);
 
         startActivityForResult(intent, REQUEST_CODE_EDIT);
     }
